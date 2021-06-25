@@ -22,6 +22,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import static java.lang.Math.min;
+
 public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
     Context context;
     List<Movie> movies;
@@ -87,8 +89,21 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
 
 
         public void bind(Movie movie) {
-            tvTitle.setText(movie.getTitle());
-            tvOverview.setText(movie.getOverview());
+            String title = movie.getTitle();
+            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                title = getCorrectSize(title,80);
+            }else {
+                title = getCorrectSize(title,50);
+            }
+            tvTitle.setText(title);
+
+            String overview = movie.getOverview();
+            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                overview = getCorrectSize(overview,400);
+            }else {
+                overview = getCorrectSize(overview,250);
+            }
+            tvOverview.setText(overview);
 
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 Glide.with(context).load(movie.getBackdropPath()).placeholder(R.drawable.flicks_backdrop_placeholder).error(R.drawable.flicks_backdrop_placeholder).into(ivPoster);
@@ -96,5 +111,14 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
                 Glide.with(context).load(movie.getPosterPath()).placeholder(R.drawable.flicks_movie_placeholder).error(R.drawable.flicks_movie_placeholder).into(ivPoster);
             }
         }
+    }
+
+    private String getCorrectSize(String overview, int chars) {
+        String ans = "";
+        for(int i=0;i<min(overview.length(),chars);i++){
+            ans = ans + overview.charAt(i);
+        }
+        if(overview.length() > chars)ans+="...";
+        return ans;
     }
 }
