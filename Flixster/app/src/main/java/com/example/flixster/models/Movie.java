@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    String backdropPath;
     String posterPath;
     String title;
     String overview;
 
     public Movie(JSONObject jsonObject) throws JSONException{
         posterPath = jsonObject.getString("poster_path");
+        backdropPath = jsonObject.getString("backdrop_path");
         title = jsonObject.getString("title");
         overview = jsonObject.getString("overview");
     }
@@ -30,6 +32,10 @@ public class Movie {
     //TODO: obtener los valores de tamaños con la api de configuracion del video uno
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/%s/%s","w342",posterPath);
+    }
+
+    public String getBackdropPath() {
+        return String.format("https://image.tmdb.org/t/p/%s/%s","w342",backdropPath);
     }
 
     public String getTitle() {
