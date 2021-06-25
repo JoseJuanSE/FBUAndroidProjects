@@ -22,6 +22,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 import static java.lang.Math.min;
 
 public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
@@ -106,9 +108,9 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
             tvOverview.setText(overview);
 
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-                Glide.with(context).load(movie.getBackdropPath()).placeholder(R.drawable.flicks_backdrop_placeholder).error(R.drawable.flicks_backdrop_placeholder).into(ivPoster);
+                Glide.with(context).load(movie.getBackdropPath()).transform(new RoundedCornersTransformation(40,0)).placeholder(R.drawable.flicks_backdrop_placeholder).error(R.drawable.flicks_backdrop_placeholder).into(ivPoster);
             }else {
-                Glide.with(context).load(movie.getPosterPath()).placeholder(R.drawable.flicks_movie_placeholder).error(R.drawable.flicks_movie_placeholder).into(ivPoster);
+                Glide.with(context).load(movie.getPosterPath()).transform(new RoundedCornersTransformation(40,0)).placeholder(R.drawable.flicks_movie_placeholder).error(R.drawable.flicks_movie_placeholder).into(ivPoster);
             }
         }
     }
