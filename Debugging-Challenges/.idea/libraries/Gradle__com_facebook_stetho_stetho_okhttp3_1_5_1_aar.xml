@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.facebook.stetho:stetho-okhttp3:1.5.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7136a589593c733259a4fc1044451635/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7136a589593c733259a4fc1044451635/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7136a589593c733259a4fc1044451635/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

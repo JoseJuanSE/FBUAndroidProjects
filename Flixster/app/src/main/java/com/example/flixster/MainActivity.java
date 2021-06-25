@@ -1,18 +1,23 @@
 package com.example.flixster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Adapter;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.flixster.adaptors.MovieAdaptor;
 import com.example.flixster.models.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -30,6 +35,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        RecyclerView rvMovies = findViewById(R.id.rvMovies);
+
+        movies = new ArrayList<>();
+
+        //Create an adaptor
+        MovieAdaptor movieAdaptor = new MovieAdaptor(this,movies);
+        //Set an adaptor
+        rvMovies.setAdapter(movieAdaptor);
+        //Set a layout manager
+        rvMovies.setLayoutManager(new LinearLayoutManager(this));
 
         AsyncHttpClient client = new AsyncHttpClient();
 
@@ -45,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
 //                    for(int j=0;j<results.length();j++){
 //                        Log.i(TAG,"Resultado "+j+" : "+results.get(j));
 //                    }
-                    movies = Movie.fromJsonArray(results);
+                    movies.addAll(Movie.fromJsonArray(results)); // here used to be bugs
+                    movieAdaptor.notifyDataSetChanged(); // important
                     Log.i(TAG,"Movies size: "+movies.size());
                 } catch (JSONException e) {
                     Log.e(TAG,"Hit json exception", e);
