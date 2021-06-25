@@ -2,6 +2,7 @@ package com.example.flixster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -35,7 +36,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
         tvdDescription.setText(movie.getOverview());
         tvdTitle.setText(movie.getTitle());
         rbStars.setRating((float) (movie.getNote() / 2.0f));
-        Glide.with(this).load(movie.getPosterPath()).placeholder(R.drawable.flicks_movie_placeholder).error(R.drawable.flicks_movie_placeholder).into(ivdPoster);
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            Glide.with(this).load(movie.getBackdropPath()).placeholder(R.drawable.flicks_backdrop_placeholder).error(R.drawable.flicks_backdrop_placeholder).into(ivdPoster);
+        }else {
+            Glide.with(this).load(movie.getPosterPath()).placeholder(R.drawable.flicks_movie_placeholder).error(R.drawable.flicks_movie_placeholder).into(ivdPoster);
+        }
         Log.i("MovieDetailsActivity","Results: "+movie.toString());
     }
 }
