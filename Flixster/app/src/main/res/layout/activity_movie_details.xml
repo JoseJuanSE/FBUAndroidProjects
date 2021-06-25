@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:isScrollContainer="true"
+    android:background="@drawable/backrepeat"
     tools:context="com.example.flixster.MovieDetailsActivity">
     <ScrollView
         android:layout_width="fill_parent"
@@ -12,8 +13,7 @@
         <RelativeLayout
             android:id="@+id/form_layout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white" >
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/ivdPoster"
@@ -25,39 +25,58 @@
                 android:layout_marginTop="0dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <RatingBar
-                android:id="@+id/rbStars"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivdPoster"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:numStars="5"
-                android:stepSize="0.5" />
 
-            <TextView
-                android:id="@+id/tvdTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rbStars"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textSize="22sp"
-                tools:text="This is a Test" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/round_rect_shape"
+                android:padding="10dp">
 
-            <TextView
-                android:id="@+id/tvdDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvdTitle"
-                android:layout_alignParentStart="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/ivdPoster"
-                android:text="TextView" />
+                <RatingBar
+                    android:id="@+id/rbStars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:numStars="5"
+                    android:stepSize="0.5" />
+
+                <TextView
+                    android:id="@+id/tvdTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rbStars"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:outlineSpotShadowColor="#EFEDED"
+                    android:shadowColor="#FFFFFF"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    tools:text="This is a Test" />
+
+                <TextView
+                    android:id="@+id/tvdDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvdTitle"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:shadowColor="#FBFBFB"
+                    android:text="TextView"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 
