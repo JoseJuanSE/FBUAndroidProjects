@@ -40,8 +40,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder>{
         String item = items.get(i);
         // Bind the item into the specified view holder
         viewHolder.bind(item);
-
-
     }
 
     //Tells the RV how many items are in the list
