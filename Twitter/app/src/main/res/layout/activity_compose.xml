@@ -7,7 +7,7 @@
     tools:context=".ComposeActivity">
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/tvTweet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -18,11 +18,11 @@
         android:inputType="textMultiLine"
         android:minLines="5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btntweet"
+        app:layout_constraintTop_toBottomOf="@+id/btnTweet"
         android:background="@android:color/transparent"/>
 
     <Button
-        android:id="@+id/btntweet"
+        android:id="@+id/btnTweet"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
