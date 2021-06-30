@@ -39,9 +39,7 @@ public class Tweet {
             final long diff = now - time;
             if (diff < MINUTE_MILLIS) {
                 return "just now";
-            } else if (diff < 2 * MINUTE_MILLIS) {
-                return "a minute ago";
-            } else if (diff < 50 * MINUTE_MILLIS) {
+            } else if (diff < 60 * MINUTE_MILLIS) {
                 return diff / MINUTE_MILLIS + "m";
             } else if (diff < 24 * HOUR_MILLIS) {
                 return diff / HOUR_MILLIS + "h";
