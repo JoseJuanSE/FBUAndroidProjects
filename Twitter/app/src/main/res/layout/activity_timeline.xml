@@ -24,7 +24,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="20dp"
-        app:backgroundTint="#1DA1F2"
+        app:backgroundTint="@color/blueTwitter"
         android:layout_marginBottom="20dp"
         android:src="@drawable/ic_baseline_add_24" />
 </RelativeLayout>
