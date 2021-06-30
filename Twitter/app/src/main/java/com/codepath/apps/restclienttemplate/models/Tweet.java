@@ -20,6 +20,7 @@ public class Tweet {
     public String createdAt;
     public User user;
     public String timeStamp;
+    public String embedUrl;
 
 
     //---get_time_stamp
@@ -59,13 +60,22 @@ public class Tweet {
 
         return "";
     }
-    //finish_get_time_stamp
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.timeStamp = tweet.getRelativeTimeAgo(jsonObject.getString("created_at"));
+        if(!jsonObject.isNull("extended_entities")){
+            tweet.embedUrl = jsonObject
+                    .getJSONObject("extended_entities")
+                    .getJSONArray("media")
+                    .getJSONObject(0)
+                    .getString("media_url_https");
+        }else{
+            tweet.embedUrl = "";
+        }
+
         return tweet;
     }
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {

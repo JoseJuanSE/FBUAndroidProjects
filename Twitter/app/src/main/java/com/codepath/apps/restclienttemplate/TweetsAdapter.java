@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
     Context context;
@@ -59,6 +62,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView tvAtName;
         TextView tvTimeStamp;
+        ImageView ivContent;
 
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
@@ -67,6 +71,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvAtName = itemView.findViewById(R.id.tvAtName);
             tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
+            ivContent = itemView.findViewById(R.id.ivContent);
         }
         //Extra: names fit inside of tweet
         //Extra: timestamp and @name with twitter design
@@ -85,6 +90,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
             tvScreenName.setText(userName);
             tvAtName.setText(userScreenName);
+            if(!tweet.embedUrl.isEmpty()){
+                Log.e("embed","HEY");
+                int radius = 30; // corner radius, higher value = more rounded
+                int margin = 10; // crop margin, set to 0 for corners with no crop
+                Glide.with(context)
+                        .load(tweet.embedUrl)
+                        .into(ivContent);
+                ivProfileImage.setVisibility(View.VISIBLE);
+            }else{
+                Log.e("embed","NOHEY");
+                ivContent.setVisibility(View.GONE);
+            }
         }
     }
     // Clean all elements of the recycler
