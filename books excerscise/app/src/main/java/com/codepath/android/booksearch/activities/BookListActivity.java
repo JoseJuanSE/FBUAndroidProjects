@@ -62,7 +62,7 @@ public class BookListActivity extends AppCompatActivity {
 
                 Book book = abooks.get(position);
                 // create intent for the new activity
-                Intent intent = new Intent(this, BookDetailActivity.class);
+                Intent intent =  new Intent(this, BookDetailActivity.class);
                 // serialize the movie using parceler, use its short name as a key
                 intent.putExtra(Book.class.getSimpleName(), Parcels.wrap(book));
                 // show the activity
