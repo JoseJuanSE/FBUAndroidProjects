@@ -6,20 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ComposeActivity">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterMaxLength="140"
+        tools:ignore="MissingConstraints"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTweet"
+        >
     <EditText
         android:id="@+id/tvTweet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/what_s_happening"
         android:inputType="textMultiLine"
         android:minLines="5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTweet"
+
         android:background="@android:color/transparent"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnTweet"

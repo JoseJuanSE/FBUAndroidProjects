@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
 public class ComposeActivity extends AppCompatActivity {
+
+    public static final int MAX_TWEET_LENGHT = 140;
     EditText tvTweet;
     Button btnTweet;
 
@@ -27,11 +30,9 @@ public class ComposeActivity extends AppCompatActivity {
                 String content = tvTweet.getText().toString();
                 //Make an Api call to Twitter  publish the tweet
                 if (content.isEmpty()) {
-                    Snackbar.make(view, "Sorry, your Tweet cannot be empty", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                } else if(content.length() > 140) {
-                    Snackbar.make(view, "Sorry, your Tweet is too long", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Toast.makeText(ComposeActivity.this,"Sorry, your Tweet cannot be empty",Toast.LENGTH_LONG).show();
+                } else if(content.length() > MAX_TWEET_LENGHT) {
+                    Toast.makeText(ComposeActivity.this,"Sorry, your Tweet is too long",Toast.LENGTH_LONG).show();
                 } else {
 
                 }
