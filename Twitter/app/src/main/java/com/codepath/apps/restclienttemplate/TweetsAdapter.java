@@ -71,10 +71,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         //TODO: make that names fit inside of tweet
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.name);
-            tvAtName.setText("@"+tweet.user.screenName);
-            tvTimeStamp.setText("·  "+tweet.timeStamp);
             Glide.with(context).load(tweet.user.publicImageUrl).into(ivProfileImage);
+            tvTimeStamp.setText( "·  "+tweet.timeStamp);
+            String userName = tweet.user.name;
+            String userScreenName = "@"+tweet.user.screenName;
+            int maxCharInView = 34;
+            if (userName.length() > maxCharInView) {
+                userName = userName.substring(0,maxCharInView)+"...";
+                userScreenName = "";
+            } else if(userName.length() + userScreenName.length() > maxCharInView) {
+                userScreenName = userScreenName.substring(0,maxCharInView-userName.length()-3)+"...";
+            }
+            tvScreenName.setText(userName);
+            tvAtName.setText(userScreenName);
         }
     }
 }
