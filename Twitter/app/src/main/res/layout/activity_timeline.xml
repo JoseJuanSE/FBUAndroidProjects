@@ -6,25 +6,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimelineActivity">
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <!-- Here we use Coordinator Layout in order to be able to hide our toolbar and
+         move our floating button if and snackbar appears
+     -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+        <!--  Instead of use an Action bar we use the newer AppBarLayout -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/swipeContainer">
+            android:layout_height="wrap_content">
+
+            <!-- Toolbar is the actual app bar with text and the action items -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/blueTwitter"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <!-- here we have out twitter icon -->
+
+                <ImageView
+                    android:id="@+id/twiiterLogo"
+                    android:background="@drawable/twitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/white" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!--   Here we use this layout to let us update by scrolling      -->
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--      here we have the design core of our app, the recycle view      -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTweets"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp" />
+                android:layout_alignParentTop="true" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!--    Here we have the floating button that we use to make a tweet    -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addTweet"
             android:layout_width="wrap_content"
