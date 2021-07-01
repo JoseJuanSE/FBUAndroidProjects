@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+// This class is the model of a tweet, here we are going to
+// save all the data that we will need.
 @Parcel
 public class Tweet {
 
@@ -26,6 +28,9 @@ public class Tweet {
     public boolean retweeted;
     public boolean favorited;
 
+    //In the following lines we will transform the time keep by tweeter, in what we see in the real tweeter, that's what
+    //we are going to need
+
     //---get_time_stamp
     public static final int SECOND_MILLIS = 1000;
     public static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
@@ -33,16 +38,20 @@ public class Tweet {
     public static final int DAY_MILLIS = 24 * HOUR_MILLIS;
     public static final String TAG = "Tweet";
 
+    //This constructor is needed for Parcel (make serializable a custom element)
     public Tweet(){
 
     }
 
+    //We return a timestamp such like 5m, 1h, 3d, just now.
     public String getRelativeTimeAgo(String rawJsonDate) {
+
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
         sf.setLenient(true);
 
         try {
+
             long time = sf.parse(rawJsonDate).getTime();
             long now = System.currentTimeMillis();
 
@@ -56,14 +65,21 @@ public class Tweet {
             } else {
                 return diff / DAY_MILLIS + "d";
             }
+
         } catch (ParseException e) {
+
             Log.i(TAG, "getRelativeTimeAgo failed");
             e.printStackTrace();
+
         }
 
         return "";
     }
+
+    //Here we recive the jsonObject that API send us, and we push all the needed date
+    //into the properties of this class (body, createdAt, user (another custom object), etc...)
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
+
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
@@ -71,25 +87,32 @@ public class Tweet {
         tweet.timeStamp = tweet.getRelativeTimeAgo(jsonObject.getString("created_at"));
         tweet.retweet_count = jsonObject.getInt("retweet_count");
         tweet.favorite_count = jsonObject.getInt("favorite_count");
-
         tweet.retweeted = jsonObject.getBoolean("retweeted");
         tweet.favorited = jsonObject.getBoolean("favorited");
-        if(!jsonObject.isNull("extended_entities")){
+
+        //Here we do this ckeck to avoid recived void objects parameter that could make
+        //crash our program when pushing this data into our ImageView using Glade.
+        if (!jsonObject.isNull("extended_entities")) {
             tweet.embedUrl = jsonObject
                     .getJSONObject("extended_entities")
                     .getJSONArray("media")
                     .getJSONObject(0)
                     .getString("media_url_https");
-        }else{
+        } else {
             tweet.embedUrl = "";
         }
+
         return tweet;
     }
+    //Here just easily traverse an array transforming each of its elements in a tweet
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
+
         List<Tweet> tweets = new ArrayList<>();
-        for(int i=0;i<jsonArray.length();i++){
+
+        for (int i=0; i < jsonArray.length(); i++) {
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
+
         return tweets;
     }
 }

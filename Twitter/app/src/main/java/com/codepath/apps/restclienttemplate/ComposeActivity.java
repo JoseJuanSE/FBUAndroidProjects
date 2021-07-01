@@ -19,6 +19,9 @@ import org.parceler.Parcels;
 
 import okhttp3.Headers;
 
+//In this class we mainly control what we use while we are making a tweet
+//We get all the necessary items to get the tweet data that we will send
+//As well as do the necessary to send them.
 public class ComposeActivity extends AppCompatActivity {
 
     public static final int MAX_TWEET_LENGHT = 140;
@@ -28,12 +31,16 @@ public class ComposeActivity extends AppCompatActivity {
     Button btnTweet;
     TwitterClient client;
 
-    //TODO: if posible actionbar -> toolbar and make it dessapper when scrolling
+    //TODO: if possible actionbar -> toolbar and make it disappear when scrolling
 
+    //In this function, we do a lot of things, we start the activity choosing the layout
+    //we get the necessary items and we set the click listener to upload the tweet
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
         tvTweet = findViewById(R.id.tvTweet);
         btnTweet = findViewById(R.id.btnTweet);
         client = TwitterApp.getRestClient(this);
@@ -43,13 +50,16 @@ public class ComposeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String content = tvTweet.getText().toString();
-                //Make an Api call to Twitter  publish the tweet
+                //Make an Api call to Twitter to publish the tweet
                 if (content.isEmpty()) {
                     Toast.makeText(ComposeActivity.this,"Sorry, your Tweet cannot be empty",Toast.LENGTH_LONG).show();
                 } else if(content.length() > MAX_TWEET_LENGHT) {
                     Toast.makeText(ComposeActivity.this,"Sorry, your Tweet is too long",Toast.LENGTH_LONG).show();
                 } else {
                     client.publishTweet(content, new JsonHttpResponseHandler() {
+                        //In this function if we succeed, then we will return the data that we got here to timeline,
+                        //and the program returns to timeline too. From there, we sent the post request we the API
+                        //through intents, to pass to timelime, we finish this activity
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG,"onSuccess to publish tweet");
