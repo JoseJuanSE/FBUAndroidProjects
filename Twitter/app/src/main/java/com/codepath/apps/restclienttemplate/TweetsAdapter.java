@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -63,6 +65,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvAtName;
         TextView tvTimeStamp;
         ImageView ivContent;
+        TextView countRetweets;
+        TextView countLikes;
+        ImageView ivRetweet;
+        ImageView ivHeart;
+
 
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
@@ -72,11 +79,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvAtName = itemView.findViewById(R.id.tvAtName);
             tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
             ivContent = itemView.findViewById(R.id.ivContent);
+            countLikes = itemView.findViewById(R.id.countLikes);
+            countRetweets = itemView.findViewById(R.id.countRetweets);
+            ivRetweet = itemView.findViewById(R.id.ivRetweet);
+            ivHeart = itemView.findViewById(R.id.ivHeart);
         }
         //Extra: names fit inside of tweet
         //Extra: timestamp and @name with twitter design
+        @SuppressLint("ResourceAsColor")
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
+            Log.e("TweetAdapter","I'm in bind");
             Glide.with(context).load(tweet.user.publicImageUrl).into(ivProfileImage);
             tvTimeStamp.setText( "·  "+tweet.timeStamp);
             String userName = tweet.user.name;
@@ -90,15 +103,42 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
             tvScreenName.setText(userName);
             tvAtName.setText(userScreenName);
-            if(!tweet.embedUrl.isEmpty()){
+            if (!tweet.embedUrl.isEmpty()) {
                 int radius = 30; // corner radius, higher value = more rounded
                 int margin = 10; // crop margin, set to 0 for corners with no crop
                 Glide.with(context)
                         .load(tweet.embedUrl)
                         .into(ivContent);
-                ivProfileImage.setVisibility(View.VISIBLE);
+                ivContent.setVisibility(View.VISIBLE);
             }else{
+                ivContent.setMaxHeight(1);
                 ivContent.setVisibility(View.GONE);
+            }
+            if (tweet.favorite_count > 0) {
+                countLikes.setVisibility(View.VISIBLE);
+                countLikes.setText(String.valueOf(tweet.favorite_count));
+                if (tweet.favorited == true) {
+                    ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+                    countLikes.setTextColor(ContextCompat.getColor(context, R.color.red));
+                } else {
+                    ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
+                    countLikes.setTextColor(ContextCompat.getColor(context, R.color.gray));
+                }
+            } else {
+                countLikes.setVisibility(View.INVISIBLE);
+            }
+            if (tweet.retweet_count > 0) {
+                countRetweets.setVisibility(View.VISIBLE);
+                countRetweets.setText(String.valueOf(tweet.retweet_count));
+                if (tweet.retweeted == true) {
+                    ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.correct), android.graphics.PorterDuff.Mode.SRC_IN);
+                    countRetweets.setTextColor(ContextCompat.getColor(context, R.color.correct));
+                } else {
+                    ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
+                    countRetweets.setTextColor(ContextCompat.getColor(context, R.color.gray));
+                }
+            } else {
+                countRetweets.setVisibility(View.INVISIBLE);
             }
         }
     }

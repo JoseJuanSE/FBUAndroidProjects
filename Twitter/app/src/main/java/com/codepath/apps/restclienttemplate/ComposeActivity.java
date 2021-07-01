@@ -28,6 +28,8 @@ public class ComposeActivity extends AppCompatActivity {
     Button btnTweet;
     TwitterClient client;
 
+    //TODO: if posible actionbar -> toolbar and make it dessapper when scrolling
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

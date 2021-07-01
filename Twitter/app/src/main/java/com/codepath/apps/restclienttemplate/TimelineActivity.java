@@ -55,7 +55,6 @@ public class TimelineActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // TODO: Your code to refresh the list here.
                 populateHomeTimeLine();
                 swipeContainer.setRefreshing(false);
                 // once the network request has completed successfully.

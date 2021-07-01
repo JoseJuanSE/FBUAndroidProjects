@@ -21,7 +21,10 @@ public class Tweet {
     public User user;
     public String timeStamp;
     public String embedUrl;
-
+    public int favorite_count;
+    public int retweet_count;
+    public boolean retweeted;
+    public boolean favorited;
 
     //---get_time_stamp
     public static final int SECOND_MILLIS = 1000;
@@ -66,6 +69,11 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.timeStamp = tweet.getRelativeTimeAgo(jsonObject.getString("created_at"));
+        tweet.retweet_count = jsonObject.getInt("retweet_count");
+        tweet.favorite_count = jsonObject.getInt("favorite_count");
+
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
+        tweet.favorited = jsonObject.getBoolean("favorited");
         if(!jsonObject.isNull("extended_entities")){
             tweet.embedUrl = jsonObject
                     .getJSONObject("extended_entities")
@@ -75,7 +83,6 @@ public class Tweet {
         }else{
             tweet.embedUrl = "";
         }
-
         return tweet;
     }
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
