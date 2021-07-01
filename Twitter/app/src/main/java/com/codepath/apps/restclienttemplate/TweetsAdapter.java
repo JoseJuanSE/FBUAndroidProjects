@@ -91,7 +91,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(userName);
             tvAtName.setText(userScreenName);
             if(!tweet.embedUrl.isEmpty()){
-                Log.e("embed","HEY");
                 int radius = 30; // corner radius, higher value = more rounded
                 int margin = 10; // crop margin, set to 0 for corners with no crop
                 Glide.with(context)
@@ -99,7 +98,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         .into(ivContent);
                 ivProfileImage.setVisibility(View.VISIBLE);
             }else{
-                Log.e("embed","NOHEY");
                 ivContent.setVisibility(View.GONE);
             }
         }

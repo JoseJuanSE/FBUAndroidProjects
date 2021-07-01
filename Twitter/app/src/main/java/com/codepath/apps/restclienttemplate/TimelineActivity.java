@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -141,6 +142,7 @@ public class TimelineActivity extends AppCompatActivity {
             //Update adapter
             adapter.notifyItemInserted(0);
             rvTweets.smoothScrollToPosition(0);
+            Snackbar.make(rvTweets,"Tweet posted!", Snackbar.LENGTH_LONG).setDuration(2000).show();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
