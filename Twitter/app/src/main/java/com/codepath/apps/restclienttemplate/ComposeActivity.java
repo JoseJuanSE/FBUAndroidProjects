@@ -32,8 +32,6 @@ public class ComposeActivity extends AppCompatActivity {
     Button btnTweet;
     TwitterClient client;
 
-    //TODO: if possible actionbar -> toolbar and make it disappear when scrolling
-
     //In this function, we do a lot of things, we start the activity choosing the layout
     //we get the necessary items and we set the click listener to upload the tweet
     @Override

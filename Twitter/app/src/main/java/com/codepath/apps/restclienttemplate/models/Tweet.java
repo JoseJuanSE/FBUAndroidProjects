@@ -25,6 +25,7 @@ public class Tweet {
     public String embedUrl;
     public int favorite_count;
     public int retweet_count;
+    public long id;
     public boolean retweeted;
     public boolean favorited;
 
@@ -89,7 +90,7 @@ public class Tweet {
         tweet.favorite_count = jsonObject.getInt("favorite_count");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
         tweet.favorited = jsonObject.getBoolean("favorited");
-
+        tweet.id = jsonObject.getLong("id");
         //Here we do this ckeck to avoid recived void objects parameter that could make
         //crash our program when pushing this data into our ImageView using Glade.
         if (!jsonObject.isNull("extended_entities")) {

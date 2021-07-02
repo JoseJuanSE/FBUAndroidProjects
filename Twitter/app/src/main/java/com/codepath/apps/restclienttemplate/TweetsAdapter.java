@@ -8,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.Databaseandnetworking.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
@@ -22,15 +25,22 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
+
+    public static final String TAG = "TweetsAdapter";
+
     Context context;
     List<Tweet> tweets;
+    TwitterClient client;
+
 
     //Pass in the context and list of tweets
-    public TweetsAdapter(Context context, List<Tweet> tweets) {
+    public TweetsAdapter(Context context, List<Tweet> tweets, TwitterClient client) {
         this.context = context;
         this.tweets = tweets;
+        this.client = client;
     }
 
 
@@ -70,6 +80,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivRetweet;
         ImageView ivHeart;
 
+        //Here I got all the items that I need from layout
 
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
@@ -86,10 +97,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
         //Extra: names fit inside of tweet
         //Extra: timestamp and @name with twitter design
-        @SuppressLint("ResourceAsColor")
+        // TODO: if there is time, add color blue to # and @
+
+        //In this huge function what I am doing in a nutshell is to get all the data from the tweet
+        // to push them into the tweetview, and I also make the respective modifications to each
+        //item with base of tweet's status. Also we set the click listener for the retweet and favorite actions.
+
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
-            Log.e("TweetAdapter","I'm in bind");
             Glide.with(context).load(tweet.user.publicImageUrl).into(ivProfileImage);
             tvTimeStamp.setText( "·  "+tweet.timeStamp);
             String userName = tweet.user.name;
@@ -140,6 +155,100 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             } else {
                 countRetweets.setVisibility(View.INVISIBLE);
             }
+            //The following two functions are so similar, basically both does the same but with a different item.
+            //We set a click listener for every retweet and favorite
+            //In these, what we ar doing, is a request of post for twitter's servers
+            //for do or undo any retweet or add to favorites.
+            //These request needs tweet id and a handler
+            //In these handlers we set up what to do in case of success and on failure
+            //on failure easily we just log the error
+            //In case of success we modify the color of icons, the count of any and the status of that in the tweet
+            ivHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!tweet.favorited) {
+                        client.like(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+
+                                int nLikes = Integer.valueOf(countLikes.getText().toString());
+                                countLikes.setText(String.valueOf(nLikes+1));
+                                tweet.favorited = true;
+                                tweet.favorite_count++;
+                                ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+                                countLikes.setTextColor(ContextCompat.getColor(context, R.color.red));
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "error in favorite "+response );
+                            }
+                        });
+                    }
+                    else {
+                        client.disLike(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+
+                                int nLikes = Integer.valueOf(countLikes.getText().toString());
+                                countLikes.setText(String.valueOf(nLikes-1));
+                                tweet.favorited = false;
+                                tweet.favorite_count--;
+                                ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
+                                countLikes.setTextColor(ContextCompat.getColor(context, R.color.gray));
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "error in favorite " + response);
+                            }
+                        });
+                    }
+                }
+            });
+
+            ivRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!tweet.retweeted) {
+                        client.retweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+
+                                int retweets = Integer.valueOf(countRetweets.getText().toString());
+                                countRetweets.setText(String.valueOf(retweets+1));
+                                tweet.retweet_count++;
+                                tweet.retweeted = true;
+                                ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.correct), android.graphics.PorterDuff.Mode.SRC_IN);
+                                countRetweets.setTextColor(ContextCompat.getColor(context, R.color.correct));
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "failure " + response);
+                            }
+                        });
+                    }else{
+                        client.unRetweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+
+                                int retweets = Integer.valueOf(countRetweets.getText().toString());
+                                countRetweets.setText(String.valueOf(retweets-1));
+                                tweet.retweet_count--;
+                                tweet.retweeted = false;
+                                ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
+                                countRetweets.setTextColor(ContextCompat.getColor(context, R.color.gray));
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "failure" + response);
+                            }
+                        });
+                    }
+                }
+            });
+
         }
     }
     // Clean all elements of the recycler
