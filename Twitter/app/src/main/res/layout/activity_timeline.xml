@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".TimelineActivity">
     <!-- Here we use Coordinator Layout in order to be able to hide our toolbar and
          move our floating button if and snackbar appears
@@ -12,8 +13,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <!--  Instead of use an Action bar we use the newer AppBarLayout -->
         <com.google.android.material.appbar.AppBarLayout
@@ -49,6 +49,7 @@
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
