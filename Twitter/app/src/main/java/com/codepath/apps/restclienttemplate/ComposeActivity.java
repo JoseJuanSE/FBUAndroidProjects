@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.Databaseandnetworking.TwitterApp;
@@ -31,6 +32,8 @@ public class ComposeActivity extends AppCompatActivity {
     EditText tvTweet;
     Button btnTweet;
     TwitterClient client;
+    TextView tvReply;
+    TextView tvUser;
 
     //In this function, we do a lot of things, we start the activity choosing the layout
     //we get the necessary items and we set the click listener to upload the tweet
@@ -39,10 +42,21 @@ public class ComposeActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
-
         tvTweet = findViewById(R.id.tvTweet);
         btnTweet = findViewById(R.id.btnTweet);
         client = TwitterApp.getRestClient(this);
+        tvReply = findViewById(R.id.tvReply);
+        tvUser = findViewById(R.id.tvUser);
+        Tweet tweetReplying = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
+        if (tweetReplying.id != -1) {
+            tvTweet.setText("@"+tweetReplying.user.screenName+" ");
+            tvReply.setVisibility(View.VISIBLE);
+            tvUser.setText("@"+tweetReplying.user.screenName);
+            tvUser.setVisibility(View.VISIBLE);
+        } else {
+            tvUser.setVisibility(View.INVISIBLE);
+            tvReply.setVisibility(View.INVISIBLE);
+        }
 
         //Set click listener on button
         btnTweet.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +69,7 @@ public class ComposeActivity extends AppCompatActivity {
                 } else if(content.length() > MAX_TWEET_LENGHT) {
                     Toast.makeText(ComposeActivity.this,"Sorry, your Tweet is too long",Toast.LENGTH_LONG).show();
                 } else {
-                    client.publishTweet(content, new JsonHttpResponseHandler() {
+                    client.publishTweet(tweetReplying.id, content, new JsonHttpResponseHandler() {
                         //In this function if we succeed, then we will return the data that we got here to timeline,
                         //and the program returns to timeline too. From there, we sent the post request we the API
                         //through intents, to pass to timelime, we finish this activity

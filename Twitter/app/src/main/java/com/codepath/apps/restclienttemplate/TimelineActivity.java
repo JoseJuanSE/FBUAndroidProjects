@@ -9,6 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -76,7 +77,10 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
-                startActivityForResult(intent,REQUEST_CODE);
+                Tweet tweet = new Tweet();
+                tweet.id = -1;
+                intent.putExtra("tweet", Parcels.wrap(tweet));
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 

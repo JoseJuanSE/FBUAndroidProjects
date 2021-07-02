@@ -40,10 +40,11 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [X] Floatting button as real twitter using 
+* [X] Floatting button as real twitter using
 * [X] Retweet and favorite icons are xml drawable vectors and the color change depending of the status as real twitter.
 * [X] SnackBars
 * [X] Rounded corners of tweet's pictures
+* [X] User's name, @names and timestamps fit in one line using ... as in real twitter
 
 ## Video Walkthrough
 

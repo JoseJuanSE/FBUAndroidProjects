@@ -17,6 +17,11 @@ public class User {
 
     }
 
+    public User(String x){
+        name = x;
+        screenName = x;
+        publicImageUrl = "";
+    }
     //Here we just populete our properties with the data given in the jsonObject that API gave us
     public static User fromJson(JSONObject jsonObject) throws JSONException {
 

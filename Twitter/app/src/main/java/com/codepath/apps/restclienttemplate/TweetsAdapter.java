@@ -2,6 +2,8 @@ package com.codepath.apps.restclienttemplate;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +28,15 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 import org.w3c.dom.Text;
 
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import okhttp3.Headers;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
@@ -85,6 +90,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView countLikes;
         ImageView ivRetweet;
         ImageView ivHeart;
+        ImageView ivReply;
 
         //Here I got all the items that I need from layout
 
@@ -100,6 +106,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             countRetweets = itemView.findViewById(R.id.countRetweets);
             ivRetweet = itemView.findViewById(R.id.ivRetweet);
             ivHeart = itemView.findViewById(R.id.ivHeart);
+            ivReply = itemView.findViewById(R.id.ivReply);
         }
         //Extra: names fit inside of tweet
         //Extra: timestamp and @name with twitter design
@@ -108,7 +115,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         //In this huge function what I am doing in a nutshell is to get all the data from the tweet
         // to push them into the tweetview, and I also make the respective modifications to each
         //item with base of tweet's status. Also we set the click listener for the retweet and favorite actions.
-
+        //Also here we make that the user's names, @ and timestamps fit in one line
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             Glide.with(context).load(tweet.user.publicImageUrl).into(ivProfileImage);
@@ -255,6 +262,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             }
                         });
                     }
+                }
+            });
+            ivReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ComposeActivity.class);
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
+                    startActivity(context, intent, new Bundle());
                 }
             });
 
