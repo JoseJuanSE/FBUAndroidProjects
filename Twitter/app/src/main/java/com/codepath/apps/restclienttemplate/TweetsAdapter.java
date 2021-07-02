@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.Databaseandnetworking.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
@@ -177,6 +178,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                                 tweet.favorite_count++;
                                 ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countLikes.setTextColor(ContextCompat.getColor(context, R.color.red));
+                                View parentLayout;
+                                Snackbar.make(view,"Favorite!", Snackbar.LENGTH_LONG).show();
                             }
                             @Override
                             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
@@ -195,6 +198,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                                 tweet.favorite_count--;
                                 ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countLikes.setTextColor(ContextCompat.getColor(context, R.color.gray));
+                                Snackbar.make(view,"tweet removed of favorites", Snackbar.LENGTH_LONG).show();
                             }
                             @Override
                             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
@@ -219,6 +223,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                                 tweet.retweeted = true;
                                 ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.correct), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countRetweets.setTextColor(ContextCompat.getColor(context, R.color.correct));
+                                Snackbar.make(view,"Retweet!", Snackbar.LENGTH_LONG).show();
                             }
 
                             @Override
@@ -237,7 +242,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                                 tweet.retweeted = false;
                                 ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countRetweets.setTextColor(ContextCompat.getColor(context, R.color.gray));
-
+                                Snackbar.make(view,"Unretweeted", Snackbar.LENGTH_LONG).show();
                             }
 
                             @Override
