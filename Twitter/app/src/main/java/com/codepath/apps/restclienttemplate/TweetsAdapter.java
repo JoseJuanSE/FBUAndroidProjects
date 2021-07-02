@@ -15,6 +15,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.Databaseandnetworking.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -120,10 +125,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(userName);
             tvAtName.setText(userScreenName);
             if (!tweet.embedUrl.isEmpty()) {
-                int radius = 30; // corner radius, higher value = more rounded
-                int margin = 10; // crop margin, set to 0 for corners with no crop
                 Glide.with(context)
                         .load(tweet.embedUrl)
+                        .transform(new MultiTransformation(new FitCenter(), new RoundedCornersTransformation(40,10)))
                         .into(ivContent);
                 ivContent.setVisibility(View.VISIBLE);
             }else{
