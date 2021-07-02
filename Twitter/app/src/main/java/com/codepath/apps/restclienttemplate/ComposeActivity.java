@@ -19,6 +19,8 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.text.ParseException;
+
 import okhttp3.Headers;
 
 //In this class we mainly control what we use while we are making a tweet
@@ -83,7 +85,7 @@ public class ComposeActivity extends AppCompatActivity {
                                 intent.putExtra("tweet", Parcels.wrap(tweet));
                                 setResult(RESULT_OK, intent);
                                 finish();
-                            } catch (JSONException e) {
+                            } catch (JSONException | ParseException e) {
                                 e.printStackTrace();
                             }
                         }

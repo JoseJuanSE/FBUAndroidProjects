@@ -12,6 +12,8 @@ import com.github.scribejava.apis.FlickrApi;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
 
+import org.parceler.Parcel;
+
 //In this class we will  doing all the necessary things to handle
 //the connection with the twitter's API
 public class TwitterClient extends OAuthBaseClient {
@@ -25,6 +27,7 @@ public class TwitterClient extends OAuthBaseClient {
 
 	// See https://developer.chrome.com/multidevice/android/intents
 	public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
+
 
 	public TwitterClient(Context context) {
 		super(context, REST_API_INSTANCE,

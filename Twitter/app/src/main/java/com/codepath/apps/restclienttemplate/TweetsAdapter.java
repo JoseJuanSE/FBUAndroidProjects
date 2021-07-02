@@ -1,9 +1,9 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.Databaseandnetworking.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -30,7 +27,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -102,7 +98,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvAtName = itemView.findViewById(R.id.tvAtName);
-            tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
+            tvTimeStamp = itemView.findViewById(R.id.tvHour);
             ivContent = itemView.findViewById(R.id.ivContent);
             countLikes = itemView.findViewById(R.id.countLikes);
             countRetweets = itemView.findViewById(R.id.countRetweets);
@@ -280,7 +276,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             rvMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"Favorite: "+tweet.favorite_count+" Retweet: "+tweet.retweet_count, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(context, DetailsActivity.class);
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
+                    startActivity(context, intent, new Bundle());
                 }
             });
         }

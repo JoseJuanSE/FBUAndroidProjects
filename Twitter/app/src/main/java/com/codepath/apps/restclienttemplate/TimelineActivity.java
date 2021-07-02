@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,7 +113,7 @@ public class TimelineActivity extends AppCompatActivity {
                 try{
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
-                }catch (JSONException e){
+                }catch (JSONException | ParseException e){
                     Log.e(TAG, "Json exception: "+e);
                 }
                 // Now we call setRefreshing(false) to signal refresh has finished
@@ -151,7 +152,7 @@ public class TimelineActivity extends AppCompatActivity {
                 try{
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
-                }catch (JSONException e){
+                }catch (JSONException | ParseException e){
                     Log.e(TAG, "Json exception: "+e);
                 }
             }

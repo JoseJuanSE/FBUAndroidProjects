@@ -7,9 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +30,8 @@ public class Tweet {
     public long id;
     public boolean retweeted;
     public boolean favorited;
+    public String hour;
+    public String day;
 
     //In the following lines we will transform the time keep by tweeter, in what we see in the real tweeter, that's what
     //we are going to need
@@ -76,16 +80,32 @@ public class Tweet {
 
         return "";
     }
+    //We return the hour and minutes when this tweet was created.
+    public String getRelativeHour(String rawJsonDate) throws ParseException {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        Date date = new SimpleDateFormat(twitterFormat).parse(rawJsonDate);
+        SimpleDateFormat f = new SimpleDateFormat("HH:mm");
+        return f.format(date);
+    }
+    //We return the hour and minutes when this tweet was created.
+    public String getRelativeDay(String rawJsonDate) throws ParseException {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        Date date = new SimpleDateFormat(twitterFormat).parse(rawJsonDate);
+        SimpleDateFormat f = new SimpleDateFormat("MM/dd/yy");
+        return f.format(date);
+    }
 
     //Here we recive the jsonObject that API send us, and we push all the needed date
     //into the properties of this class (body, createdAt, user (another custom object), etc...)
-    public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
+    public static Tweet fromJson(JSONObject jsonObject) throws JSONException, ParseException {
 
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.timeStamp = tweet.getRelativeTimeAgo(jsonObject.getString("created_at"));
+        tweet.hour = tweet.getRelativeHour(jsonObject.getString("created_at"));
+        tweet.day = tweet.getRelativeDay(jsonObject.getString("created_at"));
         tweet.retweet_count = jsonObject.getInt("retweet_count");
         tweet.favorite_count = jsonObject.getInt("favorite_count");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
@@ -106,7 +126,7 @@ public class Tweet {
         return tweet;
     }
     //Here just easily traverse an array transforming each of its elements in a tweet
-    public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
+    public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException, ParseException {
 
         List<Tweet> tweets = new ArrayList<>();
 
