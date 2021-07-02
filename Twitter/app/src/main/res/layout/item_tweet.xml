@@ -139,6 +139,7 @@
         android:layout_marginTop="11dp"
         android:layout_toEndOf="@+id/ivRetweet"
         android:inputType="text"
+        android:text="666"
         android:visibility="visible" />
 
     <TextView
@@ -150,6 +151,7 @@
         android:layout_marginTop="11dp"
         android:layout_toEndOf="@+id/ivHeart"
         android:inputType="text"
+        android:text="666"
         android:visibility="visible" />
 
 </RelativeLayout>

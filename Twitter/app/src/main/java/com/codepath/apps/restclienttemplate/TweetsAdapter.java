@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,6 +92,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivRetweet;
         ImageView ivHeart;
         ImageView ivReply;
+        RelativeLayout rvMain;
 
         //Here I got all the items that I need from layout
 
@@ -107,6 +109,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivRetweet = itemView.findViewById(R.id.ivRetweet);
             ivHeart = itemView.findViewById(R.id.ivHeart);
             ivReply = itemView.findViewById(R.id.ivReply);
+            rvMain = itemView.findViewById(R.id.main_content);
         }
         //Extra: names fit inside of tweet
         //Extra: timestamp and @name with twitter design
@@ -134,16 +137,16 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             if (!tweet.embedUrl.isEmpty()) {
                 Glide.with(context)
                         .load(tweet.embedUrl)
-                        .transform(new MultiTransformation(new FitCenter(), new RoundedCornersTransformation(40,10)))
+                        .transform(new MultiTransformation(new FitCenter(), new RoundedCornersTransformation(40,5)))
                         .into(ivContent);
                 ivContent.setVisibility(View.VISIBLE);
             }else{
                 ivContent.setMaxHeight(1);
                 ivContent.setVisibility(View.GONE);
             }
+            countLikes.setText(String.valueOf(tweet.favorite_count));
             if (tweet.favorite_count > 0) {
                 countLikes.setVisibility(View.VISIBLE);
-                countLikes.setText(String.valueOf(tweet.favorite_count));
                 if (tweet.favorited == true) {
                     ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
                     countLikes.setTextColor(ContextCompat.getColor(context, R.color.red));
@@ -152,11 +155,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     countLikes.setTextColor(ContextCompat.getColor(context, R.color.gray));
                 }
             } else {
-                countLikes.setVisibility(View.INVISIBLE);
+                countLikes.setVisibility(View.GONE);
             }
+            countRetweets.setText(String.valueOf(tweet.retweet_count));
             if (tweet.retweet_count > 0) {
                 countRetweets.setVisibility(View.VISIBLE);
-                countRetweets.setText(String.valueOf(tweet.retweet_count));
                 if (tweet.retweeted == true) {
                     ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.correct), android.graphics.PorterDuff.Mode.SRC_IN);
                     countRetweets.setTextColor(ContextCompat.getColor(context, R.color.correct));
@@ -165,7 +168,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     countRetweets.setTextColor(ContextCompat.getColor(context, R.color.gray));
                 }
             } else {
-                countRetweets.setVisibility(View.INVISIBLE);
+                countRetweets.setVisibility(View.GONE);
             }
             //The following two functions are so similar, basically both does the same but with a different item.
             //We set a click listener for every retweet and favorite
@@ -183,13 +186,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
 
-                                int nLikes = Integer.valueOf(countLikes.getText().toString());
-                                countLikes.setText(String.valueOf(nLikes+1));
-                                tweet.favorited = true;
                                 tweet.favorite_count++;
+                                countLikes.setText(String.valueOf(tweet.favorite_count));
+                                countLikes.setVisibility(View.VISIBLE);
+                                tweet.favorited = true;
                                 ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countLikes.setTextColor(ContextCompat.getColor(context, R.color.red));
-                                View parentLayout;
                                 Snackbar.make(view,"Favorite!", Snackbar.LENGTH_LONG).show();
                             }
                             @Override
@@ -203,10 +205,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
 
-                                int nLikes = Integer.valueOf(countLikes.getText().toString());
-                                countLikes.setText(String.valueOf(nLikes-1));
-                                tweet.favorited = false;
                                 tweet.favorite_count--;
+                                countLikes.setText(String.valueOf(tweet.favorite_count));
+                                tweet.favorited = false;
+                                if (tweet.favorite_count == 0) {
+                                    countLikes.setVisibility(View.GONE);
+                                }
                                 ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countLikes.setTextColor(ContextCompat.getColor(context, R.color.gray));
                                 Snackbar.make(view,"tweet removed of favorites", Snackbar.LENGTH_LONG).show();
@@ -228,15 +232,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
 
-                                int retweets = Integer.valueOf(countRetweets.getText().toString());
-                                countRetweets.setText(String.valueOf(retweets+1));
                                 tweet.retweet_count++;
+                                countRetweets.setVisibility(View.VISIBLE);
+                                countRetweets.setText(String.valueOf(tweet.retweet_count));
                                 tweet.retweeted = true;
                                 ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.correct), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countRetweets.setTextColor(ContextCompat.getColor(context, R.color.correct));
                                 Snackbar.make(view,"Retweet!", Snackbar.LENGTH_LONG).show();
                             }
-
                             @Override
                             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                                 Log.e(TAG, "failure " + response);
@@ -247,9 +250,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
 
-                                int retweets = Integer.valueOf(countRetweets.getText().toString());
-                                countRetweets.setText(String.valueOf(retweets-1));
                                 tweet.retweet_count--;
+                                countRetweets.setText(String.valueOf(tweet.retweet_count));
+                                if(tweet.retweet_count == 0){
+                                    countRetweets.setVisibility(View.GONE);
+                                }
                                 tweet.retweeted = false;
                                 ivRetweet.setColorFilter(ContextCompat.getColor(context, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countRetweets.setTextColor(ContextCompat.getColor(context, R.color.gray));
@@ -272,7 +277,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     startActivity(context, intent, new Bundle());
                 }
             });
-
+            rvMain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,"Favorite: "+tweet.favorite_count+" Retweet: "+tweet.retweet_count, Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
     // Clean all elements of the recycler
