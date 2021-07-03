@@ -33,6 +33,8 @@ import org.parceler.Parcels;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Headers;
 
@@ -40,6 +42,7 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
 
     public static final String TAG = "TimelineActivity";
     public static final int REQUEST_CODE = 20;
+    private Timer timer;
 
     TwitterClient client;
     RecyclerView rvTweets;
@@ -109,6 +112,7 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP
         // getHomeTimeline is an example endpoint.
+        getHundred();
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -125,6 +129,7 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
                 }
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);
+                npb.setProgress(100);
             }
 
             @Override
@@ -151,7 +156,7 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
     }
 
     private void populateHomeTimeLine() {
-        npb.setVisibility(View.VISIBLE);
+        getHundred();
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -164,9 +169,7 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
                     Log.e(TAG, "Json exception: "+e);
                 }
                 npb.setProgress(100);
-                npb.setVisibility(View.GONE);
             }
-
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.e(TAG,"onFailure!",throwable);
@@ -196,5 +199,20 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
             npb.setProgress(0);
             npb.setVisibility(View.GONE);
         }
+    }
+    void getHundred(){
+        npb.setVisibility(View.VISIBLE);
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        npb.incrementProgressBy(1);
+                    }
+                });
+            }
+        }, 1000, 100);
     }
 }
