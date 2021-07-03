@@ -229,7 +229,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(DetailsActivity.this, ComposeActivity.class);
                 intent.putExtra("tweet", Parcels.wrap(tweet));
-                startActivity(DetailsActivity.this,intent,new Bundle());
+                startActivity(intent, new Bundle());
             }
         });
     }
