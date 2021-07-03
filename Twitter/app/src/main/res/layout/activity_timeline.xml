@@ -42,7 +42,12 @@
                     android:backgroundTint="@color/white" />
 
             </androidx.appcompat.widget.Toolbar>
-
+            <com.daimajia.numberprogressbar.NumberProgressBar
+                android:id="@+id/number_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
         </com.google.android.material.appbar.AppBarLayout>
 
         <!--   Here we use this layout to let us update by scrolling      -->

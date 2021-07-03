@@ -15,11 +15,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.Databaseandnetworking.TwitterApp;
 import com.codepath.apps.restclienttemplate.Databaseandnetworking.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.daimajia.numberprogressbar.OnProgressBarListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -33,7 +36,7 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements OnProgressBarListener {
 
     public static final String TAG = "TimelineActivity";
     public static final int REQUEST_CODE = 20;
@@ -43,6 +46,7 @@ public class TimelineActivity extends AppCompatActivity {
     List<Tweet> tweets;
     TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
+    private NumberProgressBar npb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,9 @@ public class TimelineActivity extends AppCompatActivity {
 
         client = TwitterApp.getRestClient(this);
 
+        //Number progress bar
+        npb = (NumberProgressBar)findViewById(R.id.number_progress_bar);
+        npb.setOnProgressBarListener(this);
         // Find the recycler view
         rvTweets = findViewById(R.id.rvTweets);
         // Init the list of tweets and adapter
@@ -144,6 +151,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void populateHomeTimeLine() {
+        npb.setVisibility(View.VISIBLE);
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -155,6 +163,8 @@ public class TimelineActivity extends AppCompatActivity {
                 }catch (JSONException | ParseException e){
                     Log.e(TAG, "Json exception: "+e);
                 }
+                npb.setProgress(100);
+                npb.setVisibility(View.GONE);
             }
 
             @Override
@@ -180,4 +190,11 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onProgressChange(int current, int max) {
+        if(current == max){
+            npb.setProgress(0);
+            npb.setVisibility(View.GONE);
+        }
+    }
 }
