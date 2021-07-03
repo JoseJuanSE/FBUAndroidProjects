@@ -46,6 +46,7 @@ The following **additional** features are implemented:
 * [X] Rounded corners of tweet's pictures
 * [X] User's name, @names and timestamps fit in one line using ... as in real twitter
 * [X] Ripple effect when pressing a tweet to see details
+* [X] Custom numeric progress bar
 
 ## Video Walkthrough
 
