@@ -12,6 +12,8 @@ import java.util.List;
 //Responsible for displaying data from the model into a row in the recycler view
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder>{
 
+    //We define this interface to be able of implement this method in the main activity
+    //in that particular object.
     public interface OnLongClickListener{
         void onItemLongClicked(int position);
     }
@@ -19,18 +21,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder>{
     List<String> items;
     OnLongClickListener longClickListener;
 
+    //We initialized our object's attributes using this constructor
     public ItemsAdapter(List<String> items, OnLongClickListener longClickListener) {
         this.items = items;
         this.longClickListener = longClickListener;
     }
 
+    //We return the view that we just created to hold all the items in that recycler view
     @NonNull
     @org.jetbrains.annotations.NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @org.jetbrains.annotations.NotNull ViewGroup viewGroup, int i) {
-        //Use layout inflator to inflate a view
+        //Use layout inflater to inflate a view
         View todoView = LayoutInflater.from(viewGroup.getContext()).inflate(android.R.layout.simple_list_item_1,viewGroup,false);
-        //
+        //We return the view that we inflated
         return new ViewHolder(todoView);
     }
     //responsible for binding data to a particular view holder

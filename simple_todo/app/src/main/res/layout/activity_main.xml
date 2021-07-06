@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- We use relative layout for an easier application of our design -->
+<!-- In relative layout we use as a reference the other elements -->
+<!-- Such way that we can say, this allocate this element x sp right size of -->
+<!-- the other element, in this case, we are using just 3 elements-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,7 +10,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+    <!-- The button is constrained in bottom by the bottom of the layout -->
+    <!--  In the right size by the layout too  -->
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
@@ -19,6 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!--  Edit text depends in position of button and layout -->
     <EditText
         android:id="@+id/etItem"
         android:layout_width="match_parent"
@@ -36,6 +42,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!--  This is the recycler view, the view that we are going  -->
+    <!--  use to show all the items (tasks)  -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvItem"
         android:layout_width="match_parent"
