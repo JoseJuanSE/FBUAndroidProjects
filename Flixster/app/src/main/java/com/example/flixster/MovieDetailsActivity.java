@@ -14,6 +14,7 @@ import com.example.flixster.models.Movie;
 
 import org.parceler.Parcels;
 
+// In this class we handle the details view of any movie
 public class MovieDetailsActivity extends AppCompatActivity {
 
     Movie movie;
@@ -23,6 +24,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     ImageView ivdPoster;
     RatingBar rbStars;
 
+    // Here we get the layout, the items of the layout and we display the given date in those items.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

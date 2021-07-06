@@ -26,10 +26,13 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static java.lang.Math.min;
 
+//This class is the adapter for recycler view
 public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
     Context context;
     List<Movie> movies;
 
+    //This is the constructor of our class, here we are getting the needed context as well as the list of movies
+    //That we will bind with recyclerview
     public MovieAdaptor(Context context, List<Movie> movies) {
         this.context = context;
         this.movies = movies;
@@ -40,6 +43,7 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+        // We inflate the layout that we created for out item movie
         View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(movieView);
     }
@@ -59,6 +63,11 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
         return movies.size();
     }
 
+    //Here is what we are going to do with each individual and its respective item view.
+    //First we get the items needed in ViewHolder constructor.
+    //After that we set the onclick listener. Here we program what we are going to do when someone push
+    //a movie item.
+    //There we get the position of the item to sent the data of that movie via intent to start the activity of details view.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tvTitle;

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- As background we defined a patter for the background that used an icon that we upload to drawable-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +8,8 @@
     android:isScrollContainer="true"
     android:background="@drawable/backrepeat"
     tools:context="com.example.flixster.MovieDetailsActivity">
+    <!--  We use scroll view for those case when the image + the other items are bigger than screen size  -->
+    <!--  In those cases we with this view we will able to scroll to see all the content  -->
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >

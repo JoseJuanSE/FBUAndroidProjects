@@ -24,8 +24,8 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-//API key: 59763c1686dd28931920e45c9f1bac5d
-
+//In this class we handle the main activity, that is for showing all the recent movies
+//in recycler view
 public class MainActivity extends AppCompatActivity {
 
     public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=59763c1686dd28931920e45c9f1bac5d";
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Here we are getting all the items needed from layout
         setContentView(R.layout.activity_main);
         RecyclerView rvMovies = findViewById(R.id.rvMovies);
         RelativeLayout relativeLayout = findViewById(R.id.layout);
@@ -54,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
         AsyncHttpClient client = new AsyncHttpClient();
 
+        // Here we are getting all the needed data from the api
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
+            //Here if we succeeded we have to fill the movies' List
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -63,10 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     Log.i(TAG,"Results: "+results.toString());
-//                    for(int j=0;j<results.length();j++){
-//                        Log.i(TAG,"Resultado "+j+" : "+results.get(j));
-//                    }
-                    movies.addAll(Movie.fromJsonArray(results)); // here used to be bugs
+                    movies.addAll(Movie.fromJsonArray(results));
                     movieAdaptor.notifyDataSetChanged(); // important
                     Log.i(TAG,"Movies size: "+movies.size());
                 } catch (JSONException e) {

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- we use gradient list as background, we defined that in drawable-->
+<!-- we use an animation following different color gradients also defined there to show the background effect -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,6 +10,7 @@
     android:background="@drawable/gradient_list"
     tools:context=".MainActivity">
 
+    <!--  we just need a recycler view for this app  -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMovies"
         android:layout_width="match_parent"
