@@ -92,24 +92,24 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
 
         public void bind(Movie movie) {
             String title = movie.getTitle();
-            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 title = getCorrectSize(title,80);
-            }else {
+            } else {
                 title = getCorrectSize(title,50);
             }
             tvTitle.setText(title);
 
             String overview = movie.getOverview();
-            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 overview = getCorrectSize(overview,400);
-            }else {
+            } else {
                 overview = getCorrectSize(overview,250);
             }
             tvOverview.setText(overview);
 
-            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 Glide.with(context).load(movie.getBackdropPath()).transform(new RoundedCornersTransformation(40,0)).placeholder(R.drawable.flicks_backdrop_placeholder).error(R.drawable.flicks_backdrop_placeholder).into(ivPoster);
-            }else {
+            } else {
                 Glide.with(context).load(movie.getPosterPath()).transform(new RoundedCornersTransformation(40,0)).placeholder(R.drawable.flicks_movie_placeholder).error(R.drawable.flicks_movie_placeholder).into(ivPoster);
             }
         }
@@ -117,10 +117,12 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.ViewHolder>{
 
     private String getCorrectSize(String overview, int chars) {
         String ans = "";
-        for(int i=0;i<min(overview.length(),chars);i++){
+        for (int i=0; i < min(overview.length(),chars); i++){
             ans = ans + overview.charAt(i);
         }
-        if(overview.length() > chars)ans+="...";
+        if (overview.length() > chars) {
+            ans+="...";
+        }
         return ans;
     }
 }
