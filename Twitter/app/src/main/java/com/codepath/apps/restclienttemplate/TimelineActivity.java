@@ -38,6 +38,8 @@ import java.util.TimerTask;
 
 import okhttp3.Headers;
 
+// In this class
+
 public class TimelineActivity extends AppCompatActivity implements OnProgressBarListener {
 
     public static final String TAG = "TimelineActivity";
@@ -155,7 +157,9 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    //In this we fill the recycler view with the tweets that we get from API
     private void populateHomeTimeLine() {
+        // This function is for progressBar
         getHundred();
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
@@ -176,7 +180,7 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
             }
         });
     }
-
+    //Here we display  the the logout button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -192,7 +196,8 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
         });
         return true;
     }
-
+    //This function is call when the progress bar is done. Then here we hide the progress bar
+    //and we left it ready for the next time, setting it to 0.
     @Override
     public void onProgressChange(int current, int max) {
         if(current == max){
@@ -200,6 +205,10 @@ public class TimelineActivity extends AppCompatActivity implements OnProgressBar
             npb.setVisibility(View.GONE);
         }
     }
+    // Here we show the progress bar in another thread while the data is being pull.
+    // That information should be load before this finish. Then how the other process will
+    // Finish first, there we set a progress of 100%, and that automatically call the function above this one
+    //That one will hide the progress bar and set it to 0 to be ready for the next time.
     void getHundred(){
         npb.setVisibility(View.VISIBLE);
         timer = new Timer();

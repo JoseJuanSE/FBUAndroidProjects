@@ -13,6 +13,7 @@ import com.codepath.apps.restclienttemplate.models.SampleModel;
 import com.codepath.apps.restclienttemplate.models.SampleModelDao;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
+//In this class we use the Oauth process to log in users and we start the home timeline for that user.
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
 	SampleModelDao sampleModelDao;
@@ -47,7 +48,6 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	// i.e Display application "homepage"
 	@Override
 	public void onLoginSuccess() {
-		Log.i("rkdsf","login success");
 		Intent i = new Intent(this, TimelineActivity.class);
 		startActivity(i);
 	}

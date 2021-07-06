@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class Tweet {
     public int retweet_count;
     public long id;
     public boolean retweeted;
-    public boolean favorited;
+    public boolean favorite;
     public String hour;
     public String day;
 
@@ -80,6 +79,9 @@ public class Tweet {
 
         return "";
     }
+
+    //The following to functions are performed just for the detail view of a tweet.
+
     //We return the hour and minutes when this tweet was created.
     public String getRelativeHour(String rawJsonDate) throws ParseException {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -109,9 +111,9 @@ public class Tweet {
         tweet.retweet_count = jsonObject.getInt("retweet_count");
         tweet.favorite_count = jsonObject.getInt("favorite_count");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
-        tweet.favorited = jsonObject.getBoolean("favorited");
+        tweet.favorite = jsonObject.getBoolean("favorited");
         tweet.id = jsonObject.getLong("id");
-        //Here we do this ckeck to avoid recived void objects parameter that could make
+        //Here we do this check to avoid received void objects parameter that could make
         //crash our program when pushing this data into our ImageView using Glade.
         if (!jsonObject.isNull("extended_entities")) {
             tweet.embedUrl = jsonObject

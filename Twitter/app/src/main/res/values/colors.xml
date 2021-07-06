@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- here we have our color resources that we are using in all the layouts -->
 <resources>
     <color name="blueTwitter">#1DA1F2</color>
     <color name="red">#FF0000</color>

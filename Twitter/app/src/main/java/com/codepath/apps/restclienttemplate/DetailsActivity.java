@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
@@ -26,8 +25,11 @@ import org.parceler.Parcels;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import okhttp3.Headers;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
+//In this class we just manage the tweet's details view for all the tweets.
+//We get the tweet using intent and parcel, and then we set up all the items needed.
+//basically we set up the same simple tweet view with other layout as well as the buttons and the function of these buttons.
+//The only thing that is a significant change is that we display the publication date and hour
+//in order to do this we also get an cast this data in tweet model.
 public class DetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "DetailsActivity";
@@ -51,6 +53,11 @@ public class DetailsActivity extends AppCompatActivity {
 
     TwitterClient client;
 
+    //In this function we get all the necessary items for the layout
+    //as well as the tweet, that one that we are going to use to
+    //get all the data to set up the view and actions.
+    //that one is been getting by a intent from timeline activity
+    //we also set up all the function of every button
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +109,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (tweet.favorite_count > 0) {
             countLikes.setVisibility(View.VISIBLE);
             tvLikes.setVisibility(View.VISIBLE);
-            if (tweet.favorited == true) {
+            if (tweet.favorite == true) {
                 ivHeart.setColorFilter(ContextCompat.getColor(DetailsActivity.this, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
             } else {
                 ivHeart.setColorFilter(ContextCompat.getColor(DetailsActivity.this, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -135,7 +142,7 @@ public class DetailsActivity extends AppCompatActivity {
         ivHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!tweet.favorited) {
+                if(!tweet.favorite) {
                     client.like(tweet.id, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -144,7 +151,7 @@ public class DetailsActivity extends AppCompatActivity {
                             countLikes.setText(String.valueOf(tweet.favorite_count));
                             countLikes.setVisibility(View.VISIBLE);
                             tvLikes.setVisibility(View.VISIBLE);
-                            tweet.favorited = true;
+                            tweet.favorite = true;
                             ivHeart.setColorFilter(ContextCompat.getColor(DetailsActivity.this, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
                             Snackbar.make(view,"Favorite!", Snackbar.LENGTH_LONG).show();
                         }
@@ -161,7 +168,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                             tweet.favorite_count--;
                             countLikes.setText(String.valueOf(tweet.favorite_count));
-                            tweet.favorited = false;
+                            tweet.favorite = false;
                             if (tweet.favorite_count == 0) {
                                 countLikes.setVisibility(View.GONE);
                                 tvLikes.setVisibility(View.GONE);
@@ -223,7 +230,6 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
-        //TODO: solve this bug
         ivReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

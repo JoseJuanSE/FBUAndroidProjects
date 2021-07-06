@@ -3,7 +3,6 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -35,6 +33,10 @@ import okhttp3.Headers;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+// In this class we manage how we push date into the design of a single tweet
+// and we push each of those design inside of our recycler view
+// In other words we fill the recycler view with the given data
+// Of course we also set all the interaction with the items in the tweet like the buttons of like, retweet and reply.
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
     public static final String TAG = "TweetsAdapter";
@@ -143,7 +145,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             countLikes.setText(String.valueOf(tweet.favorite_count));
             if (tweet.favorite_count > 0) {
                 countLikes.setVisibility(View.VISIBLE);
-                if (tweet.favorited == true) {
+                if (tweet.favorite == true) {
                     ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
                     countLikes.setTextColor(ContextCompat.getColor(context, R.color.red));
                 } else {
@@ -177,7 +179,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivHeart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!tweet.favorited) {
+                    if(!tweet.favorite) {
                         client.like(tweet.id, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -185,7 +187,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                                 tweet.favorite_count++;
                                 countLikes.setText(String.valueOf(tweet.favorite_count));
                                 countLikes.setVisibility(View.VISIBLE);
-                                tweet.favorited = true;
+                                tweet.favorite = true;
                                 ivHeart.setColorFilter(ContextCompat.getColor(context, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
                                 countLikes.setTextColor(ContextCompat.getColor(context, R.color.red));
                                 Snackbar.make(view,"Favorite!", Snackbar.LENGTH_LONG).show();
@@ -203,7 +205,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
                                 tweet.favorite_count--;
                                 countLikes.setText(String.valueOf(tweet.favorite_count));
-                                tweet.favorited = false;
+                                tweet.favorite = false;
                                 if (tweet.favorite_count == 0) {
                                     countLikes.setVisibility(View.GONE);
                                 }
