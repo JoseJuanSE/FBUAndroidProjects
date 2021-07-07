@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/ivInstagram"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="130dp"
+        android:gravity="center_horizontal"
+        app:srcCompat="@drawable/nav_logo_whiteout"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <!--  In the following to items, we set as background custom_edittext witch is actually our custom design  -->
+    <!--  To make this editText look as instragram's ones  -->
+    <EditText
+        android:id="@+id/etUser"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivInstagram"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/custom_edittext"
+        android:hint="Phone number, username or email"
+        android:padding="10sp"
+        android:paddingStart="15dp"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etUser"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/custom_edittext"
+        android:hint="Password"
+        android:padding="10dp"
+        android:paddingStart="15dp"
+        android:password="true"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tvForgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etPassword"
+        android:layout_alignEnd="@+id/etPassword"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="-3dp"
+        android:layout_marginBottom="245dp"
+        android:text="Forgot password?"
+        android:textColor="@color/lightBlueFacebook"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnLogIn"
+        android:layout_width="350dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/etPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:backgroundTint="@color/lightBlueFacebook"
+        android:fontFamily="sans-serif"
+        android:text="Log In"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+</RelativeLayout>
