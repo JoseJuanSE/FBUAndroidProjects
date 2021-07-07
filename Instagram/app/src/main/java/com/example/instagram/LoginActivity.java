@@ -27,6 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     //TODO: if there is time when keyboard displays, drag all above keyboard
     //TODO: if there is time, make button log in just available when both fields are not empty
     //TODO: if there is time copy the complete design
+
+    //Here we get all the necessary items that we will use, and also we log in or skip log in depending of the
+    //current user state
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +53,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //We use this method to login our user and start the main activity when we are not logged
     private void loginUser(String userName, String password) {
         Log.i(TAG, "User " + userName + " trying to login...");
         ParseUser.logInInBackground(userName, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
+                //if e has something that is an error.
                 if (e != null) {
                     Log.e(TAG, "Problem logIn ", e);
                     return;
