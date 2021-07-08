@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Instagram"
         tools:ignore="Instantiatable">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".TakePhotoActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

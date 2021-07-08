@@ -4,6 +4,13 @@
     <!--  Here we just add the logout button  -->
     <item
         android:title="Logout"
+        android:icon="@drawable/instagram_new_post_outline_24"
+        android:id="@+id/id_Photo"
+        app:showAsAction="ifRoom"
+        />
+    <!--  Here we just add the logout button  -->
+    <item
+        android:title="Logout"
         android:icon="@drawable/ic_logout"
         android:id="@+id/id_Logout"
         app:showAsAction="ifRoom"

@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 //if e has something that is an error.
                 if (e != null) {
                     Log.e(TAG, "Problem logIn ", e);
+                    Toast.makeText(LoginActivity.this, "incorrect password or user", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     goToMainActivity();
