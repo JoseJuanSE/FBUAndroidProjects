@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(MainActivity.this, TakePhotoActivity.class);
+                startActivity(intent);
                 return false;
             }
         });
