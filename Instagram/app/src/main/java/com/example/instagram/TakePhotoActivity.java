@@ -105,15 +105,12 @@ public class TakePhotoActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                // with this we are sure of the correct orientation.
                 takenImage = rotateBitmapOrientation(photoFile.getAbsolutePath());
-                // RESIZE BITMAP
+                // RESIZE BITMAP for data optimization
                 Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, 950);
-                // Configure byte output stream
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                // Compress the image further
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-
-
                 // Load the taken image into a preview
                 ivPostImage.setImageBitmap(resizedBitmap);
                 ivPostImage.setVisibility(View.VISIBLE);

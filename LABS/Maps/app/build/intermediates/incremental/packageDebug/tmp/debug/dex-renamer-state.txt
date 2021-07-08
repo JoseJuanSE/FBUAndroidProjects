@@ -1,0 +1,4 @@
+#Thu Jul 08 12:39:31 CDT 2021
+base.0=/Users/josejuanse/Desktop/FBUAndroidProjects/LABS/Maps/app/build/intermediates/dex/debug/out/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
