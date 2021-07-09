@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Instagram"
         tools:ignore="Instantiatable">
-        <activity android:name=".PostDetails"></activity>
+        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".PostDetails" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

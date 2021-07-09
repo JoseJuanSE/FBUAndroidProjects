@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUser;
     private EditText etPassword;
     private Button btnLogin;
+    private TextView tvsignup;
 
 
     //TODO: if there is time when keyboard displays, drag all above keyboard
@@ -34,9 +36,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        etUser = findViewById(R.id.etUser);
+        etUser = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
+        btnLogin = findViewById(R.id.btnSignup);
+        tvsignup = findViewById(R.id.tvsignup);
 
         // If we are already log in, we have to skip the log in.
         if( ParseUser.getCurrentUser() != null) {
@@ -49,6 +52,14 @@ public class LoginActivity extends AppCompatActivity {
                 String userName = etUser.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(userName, password);
+            }
+        });
+
+        tvsignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent);
             }
         });
     }

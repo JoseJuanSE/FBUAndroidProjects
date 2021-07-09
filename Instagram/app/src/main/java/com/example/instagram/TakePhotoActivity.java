@@ -149,8 +149,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                     Toast.makeText(TakePhotoActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post save was successful!!");
-                etDescription.setText("");
-                ivPostImage.setImageResource(0);
+                Toast.makeText(TakePhotoActivity.this, "Posted successfully!", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
