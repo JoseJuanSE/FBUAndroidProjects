@@ -62,7 +62,7 @@
             <!--      here we have the design core of our app, the recycle view      -->
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTweets"
+                android:id="@+id/rvPosts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"

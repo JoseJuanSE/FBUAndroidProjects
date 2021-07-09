@@ -2,6 +2,9 @@ package com.example.instagram;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +18,17 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+
+    private RecyclerView rvPosts;
+    protected  PostAdapter adapter;
+    protected List<Post> allPosts;
+    SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,34 @@ public class MainActivity extends AppCompatActivity {
         // Remove default title text
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //Support swipecontainer
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchTimelineAsync(0);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        rvPosts = findViewById(R.id.rvPosts);
+
+        // initialize the array that will hold posts and create a PostsAdapter
+        allPosts = new ArrayList<>();
+        adapter = new PostAdapter(this, allPosts);
+
+        rvPosts.setAdapter(adapter);
+
+        rvPosts.setLayoutManager(new LinearLayoutManager(this));
+
         queryPosts();
 
     }
@@ -40,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
+        query.setLimit(20);
+        query.addDescendingOrder("createdAt");
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> objects, ParseException e) {
@@ -47,9 +86,12 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Issue with getting posts: " + e);
                     return ;
                 }
+                //For debugging purposes
                 for (Post post : objects){
                     Log.i(TAG, "Post added with des: " + post.getDescription()+ " username: " + post.getUser().getUsername());
                 }
+                allPosts.addAll(objects);
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -81,5 +123,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    public void fetchTimelineAsync(int page) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(20);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts: " + e);
+                    return ;
+                }
+                allPosts.clear();
+                allPosts.addAll(objects);
+                adapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+            }
+
+        });
     }
 }
