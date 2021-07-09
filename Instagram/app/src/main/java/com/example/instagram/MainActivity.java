@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // TODO: create just one functio for duplicated code
     public void fetchTimelineAsync(int page) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
@@ -145,4 +146,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -73,6 +73,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         TextView tvUsername2;
         ImageView ivImage;
         TextView tvDescription;
+        TextView tvDate;
         RelativeLayout rlMain;
 
         //Here I got all the items that I need from layout
@@ -84,6 +85,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             rlMain = itemView.findViewById(R.id.rlMain);
+            tvDate = itemView.findViewById(R.id.tvDate2);
         }
         //In this huge function what I am doing in a nutshell is to get all the data from the post
         // to push them into the item layout, and I also make the respective modifications to each
@@ -91,6 +93,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         //Also here we make that the user's names, @ and timestamps fit in one line
         public void bind(Post post) {
             tvDescription.setText(post.getDescription());
+            tvDate.setText(post.getDatetime());
             ParseFile image = post.getImage();
             if(image != null){
                 Glide.with(context).load(image.getUrl()).into(ivImage);
