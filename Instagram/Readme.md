@@ -1,8 +1,8 @@
-# Project 4 - *Name of App Here*
+# Project 4 - *Instagram clone*
 
-**Name of your app** is a photo sharing app using Parse as its backend.
+**Instagram clone** is a photo sharing app using Parse as its backend.
 
-Time spent: **X** hours spent in total
+Time spent: **10** hours spent in total
 
 ## User Stories
 
@@ -40,12 +40,12 @@ The following **stretch** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [X] Resized images!
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Implementing reels feature
+2. Implementing preview of comments in timeline
 
 ## Video Walkthrough
 
@@ -64,11 +64,11 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+This app was easier than twitter clone, but anyway has some new stuff that can bring us new errors and bugs like camera use (rotated image), fragments, as well as the use of parse (create by ourselves the data models and data base.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2021] [Jose Juan Suarez Elizalde]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
