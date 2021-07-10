@@ -3,7 +3,6 @@ package com.example.instagram;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +11,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseFile;
 
 import org.jetbrains.annotations.NotNull;
-import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.util.List;
-
-import okhttp3.Headers;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
@@ -103,7 +97,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             rlMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, PostDetails.class);
+                    Intent intent = new Intent(context, PostDetailsActivity.class);
                     intent.putExtra("Post", Parcels.wrap(post));
                     startActivity(context, intent, new Bundle());
                 }
