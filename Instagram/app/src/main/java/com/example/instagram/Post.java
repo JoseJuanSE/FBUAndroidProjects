@@ -11,7 +11,7 @@ import org.parceler.Parcel;
 
 import java.util.Date;
 
-
+//Here we have the Post data model and some needed functions related to this object
 @ParseClassName("Post")
 public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION = "description";
@@ -79,6 +79,7 @@ public class Post extends ParseObject {
 
         return "";
     }
+
     public String getDatetime(){
         Date createdAt = getCreatedAt();
         String timeAgo = Post.calculateTimeAgo(createdAt);

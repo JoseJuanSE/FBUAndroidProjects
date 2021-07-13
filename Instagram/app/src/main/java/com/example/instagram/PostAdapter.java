@@ -23,6 +23,7 @@ import java.util.List;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+// Here we manage how we display the items in recycler views
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public static final String TAG = "PostAdapter";
@@ -74,6 +75,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
+
             tvUsername = itemView.findViewById(R.id.tvUser);
             tvUsername2 = itemView.findViewById(R.id.tvUser2);
             ivImage = itemView.findViewById(R.id.ivImage);
@@ -89,7 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvDescription.setText(post.getDescription());
             tvDate.setText(post.getDatetime());
             ParseFile image = post.getImage();
-            if(image != null){
+            if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
             tvUsername.setText(post.getUser().getUsername());

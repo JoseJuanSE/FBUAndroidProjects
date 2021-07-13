@@ -48,6 +48,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_photo);
+
         etDescription = findViewById(R.id.etDescription);
         btnPicture = findViewById(R.id.btnTakePicture);
         btnSubmit = findViewById(R.id.btnSubmit);
@@ -128,7 +129,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d(TAG, "failed to create directory");
         }
 

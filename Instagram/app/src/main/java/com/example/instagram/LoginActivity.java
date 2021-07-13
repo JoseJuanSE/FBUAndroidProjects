@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         tvsignup = findViewById(R.id.tvsignup);
 
         // If we are already log in, we have to skip the log in.
-        if( ParseUser.getCurrentUser() != null) {
+        if (ParseUser.getCurrentUser() != null) {
             goToMainActivity();
         }
 

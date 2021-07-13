@@ -11,6 +11,7 @@ import com.parse.ParseFile;
 
 import org.parceler.Parcels;
 
+// Here we display PostDetails View
 public class PostDetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "PostDetailsActivity";
@@ -35,7 +36,7 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         tvDescription.setText(post.getDescription());
         ParseFile image = post.getImage();
-        if(image != null){
+        if (image != null) {
             Glide.with(PostDetailsActivity.this).load(image.getUrl()).into(ivImage);
         }
         tvUsername.setText(post.getUser().getUsername());

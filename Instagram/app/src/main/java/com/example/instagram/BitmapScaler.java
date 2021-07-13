@@ -2,8 +2,8 @@ package com.example.instagram;
 
 import android.graphics.Bitmap;
 
-public class BitmapScaler
-{
+// This class is used to scale bitmaps (optimized images)
+public class BitmapScaler {
     // scale and keep aspect ratio
     public static Bitmap scaleToFitWidth(Bitmap b, int width)
     {

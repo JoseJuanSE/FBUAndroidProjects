@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // Remove default title text
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //Support swipecontainer
+        //Support swipe container
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -70,31 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
         rvPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        queryPosts();
+        fetchTimelineAsync(-1);
 
-    }
-
-    private void queryPosts() {
-        // Specify which class to query
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.setLimit(20);
-        query.addDescendingOrder("createdAt");
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts: " + e);
-                    return ;
-                }
-                //For debugging purposes
-                for (Post post : objects){
-                    Log.i(TAG, "Post added with des: " + post.getDescription()+ " username: " + post.getUser().getUsername());
-                }
-                allPosts.addAll(objects);
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
     //Here we display  the the logout button
@@ -126,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // TODO: create just one functio for duplicated code
+    // TODO: create just one function for duplicated code (Zach advice)
+    // The following function has the functionalities of fetchTimelineAsync and queryPosts
     public void fetchTimelineAsync(int page) {
+        // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.setLimit(20);
@@ -139,10 +118,15 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Issue with getting posts: " + e);
                     return ;
                 }
-                allPosts.clear();
+
+                if (page == 0) {
+                    allPosts.clear();
+                }
                 allPosts.addAll(objects);
                 adapter.notifyDataSetChanged();
-                swipeContainer.setRefreshing(false);
+                if (page == 0) {
+                    swipeContainer.setRefreshing(false);
+                }
             }
         });
     }
